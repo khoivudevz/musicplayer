@@ -2,12 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import CLOUDS from "vanta/dist/vanta.clouds.min";
 import * as THREE from "three";
 import MusicPlayer from "../MusicPlayer/MusicPlayer";
-import { useSelector } from "react-redux";
-import { musicData } from "../../data/musicData/musicData";
 
 export const Clouds = () => {
   const [vantaEffect, setVantaEffect] = useState(0);
-  const [data, setData] = useState(musicData);
   const vantaRef = useRef(null);
   useEffect(() => {
     if (!vantaEffect) {
@@ -34,7 +31,7 @@ export const Clouds = () => {
 
   return (
     <div ref={vantaRef} className="absolute top-0 left-0 w-full h-full">
-      <MusicPlayer data={data} />
+      <MusicPlayer />
     </div>
   );
 };

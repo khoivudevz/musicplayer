@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import ReactHowler from "react-howler";
+import MusicList from "../MusicList/MusicList";
 import raf from "raf"; // requestAnimationFrame polyfill
 
 // icon
@@ -11,23 +13,25 @@ import { BiSkipNext } from "react-icons/bi";
 import { BiSkipPrevious } from "react-icons/bi";
 import { BiShuffle } from "react-icons/bi";
 import { MdLoop } from "react-icons/md";
-import { BsMusicNote } from "react-icons/bs";
+import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
+
+import { setCurrentIndex, setPlaying } from "../../reducers/musicSlice";
 
 // css
 import "./musicPlayer.scss";
-import MusicList from "../MusicList/MusicList";
 
 class MusicPlayer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.sources = this.props.data.musicList.map((song) => song.src);
-    this.image = this.props.data.musicList.map((image) => image.image);
-    this.singer = this.props.data.musicList.map((singer) => singer.singer);
-    this.songName = this.props.data.musicList.map((songName) => songName.name);
+    this.sources = this.props.musicData.musicList.map((song) => song.src);
+    this.image = this.props.musicData.musicList.map((image) => image.image);
+    this.singer = this.props.musicData.musicList.map((singer) => singer.singer);
+    this.songName = this.props.musicData.musicList.map(
+      (songName) => songName.name
+    );
 
     this.state = {
-      playing: false,
       loaded: false,
       loop: false,
       mute: false,
@@ -37,11 +41,8 @@ class MusicPlayer extends React.Component {
       isSeeking: false,
       muteIcon: false,
       volumeIcon: false,
-      currentSrcIndex: 0,
-      currentImageIndex: 0,
-      currentSingerIndex: 0,
-      currentSongNameIndex: 0,
       shuffle: false,
+      anim: false,
     };
 
     this.handleToggle = this.handleToggle.bind(this);
@@ -65,30 +66,18 @@ class MusicPlayer extends React.Component {
   }
 
   handleNextSong() {
-    if (this.state.currentSrcIndex < this.sources.length - 1) {
-      this.setState({ currentSrcIndex: this.state.currentSrcIndex + 1 });
-      this.setState({ currentImageIndex: this.state.currentSrcIndex + 1 });
-      this.setState({ currentSongNameIndex: this.state.currentSrcIndex + 1 });
-      this.setState({ currentSingerIndex: this.state.currentSrcIndex + 1 });
+    if (this.props.currentIndex < this.sources.length - 1) {
+      this.props.setCurrentIndex(this.props.currentIndex + 1);
     } else {
-      this.setState({ currentSrcIndex: 0 });
-      this.setState({ currentImageIndex: 0 });
-      this.setState({ currentSongNameIndex: 0 });
-      this.setState({ currentSingerIndex: 0 });
+      this.props.setCurrentIndex(0);
     }
   }
 
   handlePrevSong() {
-    if (this.state.currentSrcIndex === 0) {
-      this.setState({ currentSrcIndex: this.sources.length - 1 });
-      this.setState({ currentImageIndex: this.sources.length - 1 });
-      this.setState({ currentSongNameIndex: this.sources.length - 1 });
-      this.setState({ currentSingerIndex: this.sources.length - 1 });
+    if (this.props.currentIndex === 0) {
+      this.props.setCurrentIndex(this.sources.length - 1);
     } else {
-      this.setState({ currentSrcIndex: this.state.currentSrcIndex - 1 });
-      this.setState({ currentImageIndex: this.state.length - 1 });
-      this.setState({ currentSongNameIndex: this.state.length - 1 });
-      this.setState({ currentSingerIndex: this.state.length - 1 });
+      this.props.setCurrentIndex(this.props.currentIndex - 1);
     }
   }
 
@@ -97,21 +86,26 @@ class MusicPlayer extends React.Component {
   }
 
   handleToggle() {
+    this.props.setPlaying(!this.props.playing);
+
     this.setState({
-      playing: !this.state.playing,
+      anim: !this.state.anim,
     });
   }
 
   handleOnLoad() {
     this.setState({
       loaded: true,
+      anim: false,
       duration: this.player.duration(),
     });
   }
 
   handleOnPlay() {
+    this.props.setPlaying(true);
+
     this.setState({
-      playing: true,
+      anim: true,
     });
     this.renderSeekPos();
   }
@@ -120,36 +114,27 @@ class MusicPlayer extends React.Component {
     let newIndex;
     do {
       newIndex = Math.floor(Math.random() * this.sources.length);
-    } while (newIndex === this.state.currentSrcIndex);
+    } while (newIndex === this.props.currentIndex);
     return newIndex;
   }
 
   handleOnEnd() {
     const randomSong = this.handleRandomSong();
     if (this.state.shuffle) {
-      this.setState({ currentSrcIndex: randomSong });
-      this.setState({ currentImageIndex: randomSong });
-      this.setState({ currentSingerIndex: randomSong });
-      this.setState({ currentSongNameIndex: randomSong });
+      this.props.setCurrentIndex(randomSong);
     } else if (this.state.loop) {
-      this.setState({ currentSrcIndex: this.state.currentSrcIndex });
-    } else if (this.state.currentSrcIndex < this.sources.length - 1) {
-      this.setState({ currentSrcIndex: this.state.currentSrcIndex + 1 });
-      this.setState({ currentSrcIndex: this.state.currentImageIndex + 1 });
-      this.setState({ currentSrcIndex: this.state.currentSingerIndex + 1 });
-      this.setState({ currentSrcIndex: this.state.currentSongNameIndex + 1 });
+      this.props.setCurrentIndex(this.props.currentIndex);
+    } else if (this.props.currentIndex < this.sources.length - 1) {
+      this.props.setCurrentIndex(this.props.currentIndex + 1);
     } else {
+      this.props.setCurrentIndex(0);
+      this.props.setPlaying(false);
+
       this.setState({
-        playing: false,
-        currentSrcIndex: 0,
-        currentImageIndex: 0,
-        currentSingerIndex: 0,
-        currentSongNameIndex: 0,
+        anim: false,
       });
     }
     this.clearRAF();
-    console.log(this.state.currentSrcIndex);
-    console.log(this.state.currentSrcIndex);
   }
 
   handleLoop() {
@@ -157,7 +142,7 @@ class MusicPlayer extends React.Component {
       loop: !this.state.loop,
       shuffle: false,
     });
-    this.setState({ currentSrcIndex: this.state.currentSrcIndex });
+    this.props.setCurrentIndex(this.props.currentIndex);
   }
 
   handleMuteToggle() {
@@ -194,7 +179,7 @@ class MusicPlayer extends React.Component {
         seek: this.player.seek(),
       });
     }
-    if (this.state.playing) {
+    if (this.props.playing) {
       this._raf = raf(this.renderSeekPos);
     }
   }
@@ -218,22 +203,23 @@ class MusicPlayer extends React.Component {
         <div className="flex flex-col items-center justify-center mb-[20%] space-y-5">
           <div className="rounded-full w-[250px] h-[250px] shadow-2xl">
             <img
-              src={this.image[this.state.currentImageIndex]}
+              src={this.image[this.props.currentIndex]}
               alt="image"
-              className="w-full h-full rounded-full spin object-cover"
+              className="w-full h-full rounded-full object-cover spin"
+              id={this.state.anim ? "" : "pause-spin"}
             />
           </div>
           <div className="flex items-center justify-center space-x-5">
-            <BsMusicNote size={20} />
+            <BsFillFileEarmarkMusicFill size={20} />
             <p className="text-[20px] cursor-default">
-              {this.songName[this.state.currentSongNameIndex]} &#40;
-              {this.singer[this.state.currentSingerIndex]}&#41;
+              {this.songName[this.props.currentIndex]} &#40;
+              {this.singer[this.props.currentIndex]}&#41;
             </p>
           </div>
         </div>
         <ReactHowler
-          src={this.sources[this.state.currentSrcIndex]}
-          playing={this.state.playing}
+          src={this.sources[this.props.currentIndex]}
+          playing={this.props.playing}
           onLoad={this.handleOnLoad}
           onPlay={this.handleOnPlay}
           onEnd={this.handleOnEnd}
@@ -242,7 +228,9 @@ class MusicPlayer extends React.Component {
           ref={(ref) => (this.player = ref)}
         />
         <div className="flex items-center justify-center my-5 space-x-5">
-          <p>{new Date(this.state.seek * 1000).toISOString().substr(11, 8)}</p>
+          <p className="text-[10px] sm:text-[14px]">
+            {new Date(this.state.seek * 1000).toISOString().substr(11, 8)}
+          </p>
           <label>
             <span>
               <input
@@ -259,7 +247,7 @@ class MusicPlayer extends React.Component {
             </span>
           </label>
 
-          <p>
+          <p className="text-[10px] sm:text-[14px]">
             {this.state.duration
               ? new Date(this.state.duration * 1000).toISOString().substr(11, 8)
               : "..."}
@@ -290,7 +278,7 @@ class MusicPlayer extends React.Component {
             </div>
           </button>
           <button onClick={this.handleToggle}>
-            {this.state.playing ? (
+            {this.props.playing ? (
               <div className="hover:text-white transition-all rounded-full">
                 <AiFillPauseCircle size={60} />
               </div>
@@ -363,4 +351,23 @@ class MusicPlayer extends React.Component {
   }
 }
 
-export default MusicPlayer;
+const mapStateToProps = (state) => {
+  return {
+    currentIndex: state.musicSlice.currentIndex,
+    musicData: state.musicSlice.musicData,
+    playing: state.musicSlice.playing,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCurrentIndex: (index) => {
+      dispatch(setCurrentIndex(index));
+    },
+    setPlaying: (boolean) => {
+      dispatch(setPlaying(boolean));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);
