@@ -219,6 +219,7 @@ class MusicPlayer extends React.Component {
         </div>
         <ReactHowler
           src={this.sources[this.props.currentIndex]}
+          preload={true}
           playing={this.props.playing}
           onLoad={this.handleOnLoad}
           onPlay={this.handleOnPlay}

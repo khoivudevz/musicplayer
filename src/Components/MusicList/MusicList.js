@@ -55,7 +55,7 @@ export default function MusicList() {
                   setIndex(index);
                 }}
               >
-                <div className="w-[150px] h-[150px] shadow-2xl border-white border-2">
+                <div className="max-w-[146px] max-h-[146px] min-w-[146px] min-h-[146px]  shadow-2xl border-white border-2">
                   <img
                     src={song.image}
                     alt=""
