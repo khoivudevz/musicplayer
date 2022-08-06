@@ -1,0 +1,74 @@
+.range {
+  -webkit-appearance: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 10px;
+  outline: none;
+  border-radius: 15%;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.range:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: black;
+  border-radius: 50%;
+  cursor: pointer;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.range:hover::-webkit-slider-thumb {
+  background: white;
+}
+
+.playerRange {
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.23);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.4px);
+  -webkit-backdrop-filter: blur(5.4px);
+  border: 1px solid rgba(255, 255, 255, 0.33);
+  height: 20px;
+  width: 356px;
+}
+
+.playerRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 35px;
+  height: 35px;
+  background: black;
+  border-radius: 50%;
+  cursor: pointer;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.playerRange::-webkit-slider-thumb:hover {
+  background: white;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+@media (max-width: 639.98px) {
+  .playerRange {
+    height: 20px;
+    width: 250px;
+  }
+  .playerRange::-webkit-slider-thumb {
+    width: 30px;
+    height: 30px;
+  }
+}

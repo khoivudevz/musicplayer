@@ -1,0 +1,25 @@
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: white !important;
+}
+.ant-btn-primary,
+.ant-btn {
+  border: none !important;
+  background: transparent !important;
+  text-shadow: none !important;
+  box-sizing: none !important;
+}
+
+.spin {
+  animation: spin 5s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin:hover {
+  animation-play-state: paused;
+}
