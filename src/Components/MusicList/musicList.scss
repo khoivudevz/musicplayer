@@ -32,16 +32,31 @@
   border-bottom: 1px solid #00000067 !important;
 }
 
-.spin {
-  animation: spin 5s linear infinite;
+#current-song {
+  -webkit-backdrop-filter: blur(62px);
+  backdrop-filter: blur(62px);
+  color: white !important;
+  // box-shadow: rgba(0, 0, 0, 0.25) 0 25px 50px -12px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-color: white !important;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+#music-list-active {
+  color: white !important;
+}
+
+.anticon:hover {
+  color: white !important;
+}
+
+.ant-drawer-right .ant-drawer-content-wrapper {
+  width: 555px !important;
+}
+
+@media screen and (max-width: 639.98px) {
+  .ant-drawer-right .ant-drawer-content-wrapper {
+    width: 100% !important;
   }
-}
-
-#pause-spin {
-  animation-play-state: paused;
 }

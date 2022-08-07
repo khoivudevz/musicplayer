@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0",
     "react-howler": "^5.2.0",
     "react-icons": "^4.4.0",
+    "react-moving-text": "^0.0.7",
     "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
     "redux-thunk": "^2.4.1",

@@ -9,6 +9,14 @@ export const musicData = {
       time: "01:13",
     },
     {
+      name: "I Like You",
+      singer: "Post Melon x Doja Cat ",
+      src: "./music/ilikeyou.mp3",
+      image:
+        "https://headlineplanet.com/home/wp-content/uploads/2022/06/Post-Malone-Press-Photo-scaled-e1654264684436-758x826.jpg",
+      time: "01:13",
+    },
+    {
       name: "Có Em",
       singer: "Madihu ft LowG",
       src: "./music/coem.mp3",
@@ -21,7 +29,15 @@ export const musicData = {
       singer: "Ngọt",
       src: "./music/maykhi.mp3",
       image: "https://i.scdn.co/image/ab67616d0000b27310a3bfd322cb770faa3fa4d9",
-      time: "0:44",
+      time: "0:29",
+    },
+    {
+      name: "Glimpse Of Us",
+      singer: "Joji",
+      src: "./music/glimpseofus.mp3",
+      image:
+        "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/06/19/279906330.jpg",
+      time: "0:34",
     },
     {
       name: "Trốn Tìm",

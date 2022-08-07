@@ -197,10 +197,10 @@ class MusicPlayer extends React.Component {
   render() {
     return (
       <div
-        className="absolute bottom-[17%] left-[50%]"
+        className="absolute bottom-[17%] left-[50%] w-[90%] lg:w-[70%] xl:w-[40%]"
         style={{ transform: "translate(-50%,0)" }}
       >
-        <div className="flex flex-col items-center justify-center mb-[20%] space-y-5">
+        <div className="flex flex-col items-center justify-center mb-[50px] sm:mb-[160px] space-y-5 w-full">
           <div className="rounded-full w-[250px] h-[250px] shadow-2xl">
             <img
               src={this.image[this.props.currentIndex]}
@@ -209,12 +209,16 @@ class MusicPlayer extends React.Component {
               id={this.state.anim ? "" : "pause-spin"}
             />
           </div>
-          <div className="flex items-center justify-center space-x-5">
-            <BsFillFileEarmarkMusicFill size={20} />
-            <p className="text-[20px] cursor-default">
-              {this.songName[this.props.currentIndex]} &#40;
-              {this.singer[this.props.currentIndex]}&#41;
-            </p>
+          <div className=" w-full text-center">
+            <div className="mx-auto w-[100%]  flex items-center justify-center">
+              <div className="flex items-center justify-center">
+                <BsFillFileEarmarkMusicFill size={20} className="mr-4" />
+                <p className="text-[17px] sm:text-[20px] cursor-default">
+                  {this.songName[this.props.currentIndex]} &#40;
+                  {this.singer[this.props.currentIndex]}&#41;
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         <ReactHowler
@@ -228,31 +232,40 @@ class MusicPlayer extends React.Component {
           volume={this.state.volume}
           ref={(ref) => (this.player = ref)}
         />
-        <div className="flex items-center justify-center my-5 space-x-5">
-          <p className="text-[10px] sm:text-[14px]">
-            {new Date(this.state.seek * 1000).toISOString().substr(11, 8)}
-          </p>
-          <label>
-            <span>
-              <input
-                className="playerRange"
-                type="range"
-                min="0"
-                max={this.state.duration ? this.state.duration.toFixed(2) : 0}
-                step=".01"
-                value={this.state.seek}
-                onChange={this.handleSeekingChange}
-                onMouseDown={this.handleMouseDownSeek}
-                onMouseUp={this.handleMouseUpSeek}
-              />
-            </span>
-          </label>
+        <div className="flex items-center justify-center my-5 ">
+          <div className="w-[15%]">
+            <p className="text-[10px] sm:text-[14px] text-center">
+              {new Date(this.state.seek * 1000).toISOString().substr(11, 8)}
+            </p>
+          </div>
 
-          <p className="text-[10px] sm:text-[14px]">
-            {this.state.duration
-              ? new Date(this.state.duration * 1000).toISOString().substr(11, 8)
-              : "..."}
-          </p>
+          <div className="w-[70%]">
+            <label>
+              <span>
+                <input
+                  className="playerRange"
+                  type="range"
+                  min="0"
+                  max={this.state.duration ? this.state.duration.toFixed(2) : 0}
+                  step=".01"
+                  value={this.state.seek}
+                  onChange={this.handleSeekingChange}
+                  onMouseDown={this.handleMouseDownSeek}
+                  onMouseUp={this.handleMouseUpSeek}
+                />
+              </span>
+            </label>
+          </div>
+
+          <div className="w-[15%]">
+            <p className="text-[10px] sm:text-[14px] text-center">
+              {this.state.duration
+                ? new Date(this.state.duration * 1000)
+                    .toISOString()
+                    .substr(11, 8)
+                : "..."}
+            </p>
+          </div>
         </div>
         <div className="flex items-center justify-center space-x-6 my-5">
           <>

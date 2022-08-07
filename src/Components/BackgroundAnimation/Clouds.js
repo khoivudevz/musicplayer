@@ -3,8 +3,12 @@ import CLOUDS from "vanta/dist/vanta.clouds.min";
 import * as THREE from "three";
 import MusicPlayer from "../MusicPlayer/MusicPlayer";
 
+import "./cloud.scss";
+
 export const Clouds = () => {
   const [vantaEffect, setVantaEffect] = useState(0);
+  const [display, setDisplay] = useState(false);
+
   const vantaRef = useRef(null);
   useEffect(() => {
     if (!vantaEffect) {
@@ -29,8 +33,18 @@ export const Clouds = () => {
     };
   }, [vantaEffect]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setDisplay(true);
+    }, 3500);
+  }, []);
+
   return (
-    <div ref={vantaRef} className="absolute top-0 left-0 w-full h-full">
+    <div
+      ref={vantaRef}
+      className="absolute top-0 left-0 w-full h-full -z-[1]"
+      id={display ? "d-none" : ""}
+    >
       <MusicPlayer />
     </div>
   );

@@ -11,6 +11,8 @@ import { setCurrentIndex, setPlaying } from "../../reducers/musicSlice";
 export default function MusicList() {
   const dispatch = useDispatch();
 
+  const currentIndex = useSelector((state) => state.musicSlice.currentIndex);
+
   const data = useSelector((state) => state.musicSlice.musicData);
 
   const setIndex = (index) => {
@@ -20,22 +22,28 @@ export default function MusicList() {
 
   const [visible, setVisible] = useState(false);
 
+  const [active, setActive] = useState(false);
+
   const showDrawer = () => {
-    setVisible(true);
+    setVisible(!visible);
+    setActive(!active);
   };
 
   const onClose = () => {
     setVisible(false);
+    setActive(false);
   };
   return (
     <>
       <div
         onClick={showDrawer}
+        id={active ? "music-list-active" : ""}
         className="hover:text-white transition-all cursor-pointer rounded-full"
       >
         <BsMusicNoteList size={30} />
       </div>
       <Drawer
+        mask={false}
         title={
           <div className="flex items-center justify-center space-x-5">
             <p className="text-[25px cursor-pointer">Play List</p>
@@ -50,30 +58,39 @@ export default function MusicList() {
           {data.musicList.map((song, index) => {
             return (
               <div
-                className="flex space-x-2 hover:shadow-2xl cursor-pointer border-[#00000067] hover:border-white transition-all border-b-2 pb-8 bg-blur"
+                id={index === currentIndex ? "current-song" : ""}
+                className="flex  hover:shadow-2xl cursor-pointer border-[#00000067] hover:border-white transition-all border-b-2 py-8 px-3 bg-blur"
                 onClick={() => {
                   setIndex(index);
                 }}
               >
-                <div className="max-w-[146px] max-h-[146px] min-w-[146px] min-h-[146px]  shadow-2xl border-white border-2">
-                  <img
-                    src={song.image}
-                    alt=""
-                    className="object-cover w-full h-full"
-                  />
+                <div className="w-[30%] ">
+                  <div className=" max-w-[90px] max-h-[90px] min-w-[90px] min-h-[90px] sm:max-w-[145px] sm:max-h-[145px] sm:min-w-[145px] sm:min-h-[145px] ">
+                    <img
+                      src={song.image}
+                      alt="banner"
+                      className="object-cover  max-w-[86px] max-h-[86px] min-w-[86px] min-h-[86px] sm:max-w-[141px] sm:max-h-[141px] sm:min-w-[141px] sm:min-h-[141px] "
+                    />
+                  </div>
                 </div>
-                <div>
+                <div className="w-[70%]">
                   <div className="flex items-center  space-x-3">
-                    <BsMusicNote size={20} />
-                    <p className="text-[20px]">{song.name}</p>
+                    <BsMusicNote size={20} className="w-[30%]" />
+                    <p className="text-[20px] w-[70%] break-words">
+                      {song.name}
+                    </p>
                   </div>
                   <div className="flex items-center  space-x-3">
-                    <FaMicrophone size={20} />
-                    <p className="text-[20px]">{song.singer}</p>
+                    <FaMicrophone size={20} className="w-[30%]" />
+                    <p className="text-[20px] w-[70%] break-words">
+                      {song.singer}
+                    </p>
                   </div>
                   <div className="flex items-center  space-x-3">
-                    <BiTimeFive size={20} />
-                    <p className="text-[20px]">{song.time}</p>
+                    <BiTimeFive size={20} className="w-[30%]" />
+                    <p className="text-[20px] w-[70%] break-words">
+                      {song.time}
+                    </p>
                   </div>
                 </div>
               </div>
