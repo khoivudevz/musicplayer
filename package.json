@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.22.3",
     "axios": "^0.27.2",
+    "firebase": "^9.9.2",
     "json-server": "^0.17.0",
     "node-sass": "^7.0.1",
     "raf": "^3.4.1",

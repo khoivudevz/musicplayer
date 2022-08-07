@@ -1,7 +1,7 @@
 import Home from "./Pages/Home/Home";
-import "antd/dist/antd.css";
 import Loading from "./Components/Loading/Loading";
-import { useEffect, useState } from "react";
+
+import "antd/dist/antd.css";
 
 function App() {
   return (
